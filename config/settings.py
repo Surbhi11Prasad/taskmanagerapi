@@ -67,7 +67,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB", "taskdb"),
         "USER": os.getenv("POSTGRES_USER", "postgres"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "yourpassword"),
-        "HOST": "db",      # MUST be service name in docker-compose
+        "HOST": os.getenv("POSTGRES_HOST"),      # MUST be service name in docker-compose
         "PORT": 5432,
     }
 }
