@@ -64,13 +64,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "taskdb"),
-        "USER": os.getenv("POSTGRES_USER", "postgres"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "yourpassword"),
-        "HOST": os.getenv("POSTGRES_HOST"),      # MUST be service name in docker-compose
-        "PORT": 5432,
+        "NAME": os.getenv("PGDATABASE"),
+        "USER": os.getenv("PGUSER"),
+        "PASSWORD": os.getenv("PGPASSWORD"),
+        "HOST": os.getenv("PGHOST"),
+        "PORT": os.getenv("PGPORT", "5432"),
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
