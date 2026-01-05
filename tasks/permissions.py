@@ -1,10 +1,15 @@
-from rest_framework import permissions
+from rest_framework.permissions import BasePermission
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Only owners can edit or delete. Everyone else can read.
-    """
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.owner == request.user
+class IsAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name="admin").exists()
+
+
+class IsManager(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name="manager").exists()
+
+
+class IsAdminOrManager(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name__in=["admin", "manager"]).exists()
