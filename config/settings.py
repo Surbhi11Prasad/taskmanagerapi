@@ -67,9 +67,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("PGDATABASE"),
-        "USER": os.getenv("PGUSER"),
-        "PASSWORD": os.getenv("PGPASSWORD"),
+        "NAME": os.getenv("PGDATABASE", "taskdb"),
+        "USER": os.getenv("PGUSER", "postgres"),
+        "PASSWORD": os.getenv("PGPASSWORD", "postgres"),
         "HOST": os.getenv("PGHOST", "db"),
         "PORT": os.getenv("PGPORT", "5432"),
     }
@@ -115,7 +115,7 @@ REST_FRAMEWORK = {
     ],
 }
 SWAGGER_SETTINGS = {
-    "USE_SESSION_AUTH": False,  
+    "USE_SESSION_AUTH": False,
     "SECURITY_DEFINITIONS": {
         "Bearer": {
             "type": "apiKey",
@@ -124,4 +124,5 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
 CORS_ALLOW_ALL_ORIGINS = True

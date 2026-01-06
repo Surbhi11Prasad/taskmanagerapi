@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   db:
@@ -7,30 +7,28 @@ services:
     environment:
       POSTGRES_DB: taskdb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-  
+
   web:
     build: .
     container_name: django_api
     command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - "8000:8000"
     volumes:
       - .:/app
+    ports:
+      - "8000:8000"
     depends_on:
       - db
-    networks:
-      - backend
+    environment:
+      PGDATABASE: taskdb
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGHOST: db
+      PGPORT: 5432
 
 volumes:
   postgres_data:
-
-networks:
-  backend:
-
