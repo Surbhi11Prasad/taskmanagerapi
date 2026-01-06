@@ -28,18 +28,18 @@ class TaskViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def get_queryset(self):
-        user = self.request.user
+        if getattr(self, "swagger_fake_view", False):
+            return Task.objects.none()
 
-        if user.groups.filter(name="admin").exists():
-            return Task.objects.filter(is_deleted=False)
-
-        if user.groups.filter(name="manager").exists():
-            return Task.objects.filter(is_deleted=False)
+    # Normal authenticated behavior
+        if not self.request.user.is_authenticated:
+            return Task.objects.none()
 
         return Task.objects.filter(
-            owner=user,
+            owner=self.request.user,
             is_deleted=False
         )
+
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
