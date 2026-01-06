@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # Third-party
+    "corsheaders",
     "rest_framework",
     "drf_yasg",
     "django_filters",
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -68,7 +70,7 @@ DATABASES = {
         "NAME": os.getenv("PGDATABASE"),
         "USER": os.getenv("PGUSER"),
         "PASSWORD": os.getenv("PGPASSWORD"),
-        "HOST": os.getenv("PGHOST"),
+        "HOST": os.getenv("PGHOST", "db"),
         "PORT": os.getenv("PGPORT", "5432"),
     }
 }
@@ -122,3 +124,4 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+CORS_ALLOW_ALL_ORIGINS = True
